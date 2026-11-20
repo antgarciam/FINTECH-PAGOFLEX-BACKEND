@@ -33,4 +33,10 @@ public class UsuarioController {
             @RequestBody Map<String, Object> body) {
         return ResponseEntity.ok(authClient.actualizarUsuario(id, body));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> desactivar(@PathVariable Long id) {
+        authClient.desactivarUsuario(id);
+        return ResponseEntity.ok(Map.of("mensaje", "Usuario desactivado"));
+    }
 }

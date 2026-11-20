@@ -7,4 +7,5 @@ public class ActualizarUsuarioRequest {
     private String nombre;
     private String correo;
     private String ciudad;
+    private Integer rolId;
 }

@@ -39,4 +39,8 @@ public class AuthClient {
         return rest.exchange(authUrl + "/usuarios/" + id,
                               HttpMethod.PUT, entity, UsuarioDto.class).getBody();
     }
+
+    public void desactivarUsuario(Long id) {
+    rest.delete(authUrl + "/usuarios/" + id);
+}
 }
