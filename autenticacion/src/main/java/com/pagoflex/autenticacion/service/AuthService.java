@@ -19,15 +19,16 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder encoder;
 
-    public LoginResponse login(LoginRequest req) {
-        Usuario u = repo.findByCorreo(req.getCorreo())
-                .orElseThrow(() -> new RuntimeException("Correo o contraseña incorrectos"));
+        public LoginResponse login(LoginRequest req) {
+        // 👇 CAMBIAR findByCorreo por findByRut
+        Usuario u = repo.findByRut(req.getRut())
+                .orElseThrow(() -> new RuntimeException("RUT o contraseña incorrectos"));
 
         if (Boolean.FALSE.equals(u.getActivo())) {
             throw new RuntimeException("Cuenta desactivada. Contacta al soporte.");
         }
         if (!encoder.matches(req.getContrasena(), u.getContrasena())) {
-            throw new RuntimeException("Correo o contraseña incorrectos");
+            throw new RuntimeException("RUT o contraseña incorrectos");
         }
 
         String token = jwtUtil.generarToken(u.getId(), u.getCorreo(), u.getRolId());
@@ -50,7 +51,7 @@ public class AuthService {
         u.setRut(req.getRut());
         u.setContrasena(encoder.encode(req.getContrasena()));
         u.setCiudad(req.getCiudad());
-        u.setRolId(1);
+        u.setRolId(3); // Rol por defecto para usuarios registrados
         u.setActivo(true);
         u.setPreguntaSeguridad(req.getPreguntaSeguridad());
         u.setRespuestaSeguridad(encoder.encode(req.getRespuestaSeguridad()));
